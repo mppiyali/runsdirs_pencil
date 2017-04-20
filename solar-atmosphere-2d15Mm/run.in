@@ -1,0 +1,85 @@
+!  -*-f90-*-  (for Emacs)    vim:set filetype=fortran:  (for vim)
+!
+! Convection in vertically stratified atmosphere/solar convection zone
+! Run parameters
+!
+&run_pars
+  cvsid='$Id: run.in,v 1.1 2017/03/15 08:44:26 piyali Exp $'
+  nt=684000
+  it1=20
+  isave=50
+  cdt=0.25
+  dvid=0.05
+  dsnap=1.0e-1
+  d2davg=1.0
+  itorder=3
+  bcz = 's:a','s:a','a:out','StS','StS','fg:nil','fg:nil','fg:pfe','s'
+  lwrite_aux=T
+  lpencil_check=T
+  lpencil_check_diagnos_opti=T
+/
+&eos_run_pars
+  xHe=0.1
+  lss_as_aux=T
+/
+&hydro_run_pars
+/
+&density_run_pars
+  lupw_lnrho=T                            ! avoid wiggles
+  idiff='shock','normal'
+  diffrho_shock=5.0,diffrho=1.0e-3
+/
+&grav_run_pars
+  gravz_profile='const'
+  gravz=-2.75
+  reduced_top=0.5
+  zgrav=0.1
+/
+&entropy_run_pars
+  lupw_lnTT=T                             ! avoid wiggles
+  iheatcond='chi-const'
+  chi=1.0e-3
+  chi_hyper3=1.0e-7
+/
+&magnetic_run_pars
+  iresistivity='hyper3','shock','eta-const'
+  eta=1.0e-5
+  eta_hyper3=1e-7
+  eta_shock=5.
+  va2max_jxb=400.
+  va2power_jxb=4
+  lboris_correction=T
+/
+&radiation_run_pars
+  cdtrad=0.025
+  lrad_debug=F
+  bc_rad='p:p','p:p','S:0'
+  radx=1
+  rady=1
+  radz=1
+  rad2max=1
+  lcutoff_opticallythin=T
+  z_cutoff=1.2
+  opacity_type='total_Rosseland_mean'
+  scalefactor_cooling=0.5
+  cooling_profile='zep',cool_wid=0.1
+  kapparho_floor=1.43e-2
+  lradflux=F
+/
+&viscosity_run_pars
+  ivisc='nu-prof','hyper3_nu-const','nu-shock'
+  nu=1.0e-5,nu_jump=101.0,widthnu=-0.2
+  nu_hyper3=1e-7
+  nu_shock=5.
+/
+&special_run_pars
+  K_spitzer=1e-30 ! Spitzer heat conduction
+  K_iso=1.e-5     ! isotropic heat conduction proptional to |grad(T)|
+!  cool_rtv=1.     ! Radiative losses
+!  cool_type=4
+  nvor=0
+  luse_vel_field=F
+/
+&shock_run_pars
+  lshock_first=F
+/
