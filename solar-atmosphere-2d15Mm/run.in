@@ -5,29 +5,35 @@
 !
 &run_pars
   cvsid='$Id: run.in,v 1.1 2017/03/15 08:44:26 piyali Exp $'
-  nt=684000
+  nt=6840000
   it1=20
   isave=50
   cdt=0.25
   dvid=0.05
-  dsnap=1.0e-1
+  dsnap=5.0e-2
   d2davg=1.0
   itorder=3
-  bcz = 's:a','s:a','a:out','StS','StS','fg:nil','fg:nil','fg:pfe','s'
+!  bcz = 's:a','s:a','a:out','StS','StS','fg:nil','fg:nil','fg:pfe','s'
+!  bcz = 's:a','s:a','a:out','StS','StS','fg:s','fg:s','fg:a','s'
+  bcz = 's:a','s:a','nil:out','StS','StS','fg:s','nil:s','fg:a','s'
   lwrite_aux=T
-  lpencil_check=T
-  lpencil_check_diagnos_opti=T
+  dtmin=1.0e-9
 /
 &eos_run_pars
   xHe=0.1
   lss_as_aux=T
 /
 &hydro_run_pars
+  uuprof='damp_corona',tau_diffrot1=1.0
+  lcalc_uumean=T,rdampext=0.0,wdamp=0.2
 /
 &density_run_pars
   lupw_lnrho=T                            ! avoid wiggles
-  idiff='shock','normal'
-  diffrho_shock=5.0,diffrho=1.0e-3
+  idiff='shock','normal','hyper3lnrho'
+  diffrho_shock=5.0,diffrho=1.0e-5,diffrho_hyper3=1.0e-6
+!  ldensity_slope_limited=T
+!  islope_limiter='minmod'
+!  h_slope_limited=0.5
 /
 &grav_run_pars
   gravz_profile='const'
@@ -37,16 +43,16 @@
 /
 &entropy_run_pars
   lupw_lnTT=T                             ! avoid wiggles
-  iheatcond='chi-const'
-  chi=1.0e-3
-  chi_hyper3=1.0e-7
+  iheatcond='chi-const','chi-hyper3'
+  chi=1.0e-5,chi_hyper3=1.0e-7
 /
 &magnetic_run_pars
   iresistivity='hyper3','shock','eta-const'
   eta=1.0e-5
   eta_hyper3=1e-7
   eta_shock=5.
-  va2max_jxb=400.
+!  va2max_jxb=900.
+  va2max_jxb=3600.
   va2power_jxb=4
   lboris_correction=T
 /
@@ -59,26 +65,37 @@
   radz=1
   rad2max=1
   lcutoff_opticallythin=T
-  z_cutoff=1.2
+  z_cutoff=1.0
   opacity_type='total_Rosseland_mean'
-  scalefactor_cooling=0.5
-  cooling_profile='zep',cool_wid=0.1
+  scalefactor_cooling=0.25
+  cool_wid=0.1
   kapparho_floor=1.43e-2
   lradflux=F
 /
 &viscosity_run_pars
   ivisc='nu-prof','hyper3_nu-const','nu-shock'
   nu=1.0e-5,nu_jump=101.0,widthnu=-0.2
-  nu_hyper3=1e-7
+!  Changed at t=9.75
+  nu_hyper3=1e-6
   nu_shock=5.
+!  lvisc_slope_limited=T
+!  islope_limiter='minmod'
+!  h_slope_limited=0.5
 /
 &special_run_pars
-  K_spitzer=1e-30 ! Spitzer heat conduction
-  K_iso=1.e-5     ! isotropic heat conduction proptional to |grad(T)|
-!  cool_rtv=1.     ! Radiative losses
-!  cool_type=4
+  K_spitzer=5e-30, Kc=0.5 ! Spitzer heat conduction
+  K_iso=1.e-7     ! isotropic heat conduction proptional to |grad(T)|
+  cool_RTV=1 ! radiative losses
+  cool_RTV_cutoff=1 ! radiative losses
   nvor=0
   luse_vel_field=F
+  iheattype='T<Tcrit'
+  T_crit=3500.0
+  deltaT_crit=300
+  heatamp=1.0e1
+  lflux_emerg_bottom=T
+  uu_emerg=0.0,0.0,0.02
+  bb_emerg=141.0,0.0,0.0
 /
 &shock_run_pars
   lshock_first=F
