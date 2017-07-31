@@ -5,16 +5,14 @@
 !
 &run_pars
   cvsid='$Id: run.in,v 1.1 2017/03/15 08:44:26 piyali Exp $'
-  nt=6840
+  nt=6840000
   it1=20
-  isave=20
+  isave=50
   cdt=0.25
-  dvid=0.05
+  dvid=50.0
   dsnap=5.0e-2
   d2davg=1.0
   itorder=3
-!  bcz = 's:a','s:a','a:out','StS','StS','fg:nil','fg:nil','fg:pfe','s'
-!  bcz = 's:a','s:a','a:out','StS','StS','fg:s','fg:s','fg:a','s'
   bcz = 's:a','s:a','nil:out','StS','StS','nil:s','nil:s','nil:a','s'
   lwrite_aux=T
   dtmin=1.0e-9
@@ -24,16 +22,13 @@
   lss_as_aux=T
 /
 &hydro_run_pars
-  uuprof='damp_corona',tau_diffrot1=1.0
-  lcalc_uumean=T,rdampext=0.0,wdamp=0.2
+!  uuprof='damp_corona',tau_diffrot1=1.0
+!  lcalc_uumean=T,rdampext=0.0,wdamp=0.2
 /
 &density_run_pars
   lupw_lnrho=T                            ! avoid wiggles
   idiff='shock','normal','hyper3lnrho'
-  diffrho_shock=5.0,diffrho=1.0e-5,diffrho_hyper3=1.0e-6
-!  ldensity_slope_limited=T
-!  islope_limiter='minmod'
-!  h_slope_limited=0.5
+  diffrho_shock=5.0,diffrho=1.0e-5,diffrho_hyper3=1.0e-7
 /
 &grav_run_pars
   gravz_profile='const'
@@ -47,14 +42,18 @@
   chi=1.0e-5,chi_hyper3=1.0e-7
 /
 &magnetic_run_pars
-  iresistivity='hyper3','shock','eta-const'
+  lweyl_gauge=T
+  iresistivity='hyper3','shock','eta-const','anomalous'
   eta=1.0e-5
   eta_hyper3=1e-7
   eta_shock=5.
-!  va2max_jxb=900.
+  vcrit_anom=3.6e-3
+  eta_anom=5.0e-5
+  eta_anom_thresh=1e-3
   va2max_jxb=3600.
   va2power_jxb=4
   lboris_correction=T
+  lbb_as_aux=T
 /
 &radiation_run_pars
   cdtrad=0.025
@@ -75,29 +74,28 @@
 &viscosity_run_pars
   ivisc='nu-prof','hyper3_nu-const','nu-shock'
   nu=1.0e-5,nu_jump=101.0,widthnu=-0.2
-!  Changed at t=9.75
-  nu_hyper3=1e-6
+  nu_hyper3=1e-7
   nu_shock=5.
-!  lvisc_slope_limited=T
-!  islope_limiter='minmod'
-!  h_slope_limited=0.5
 /
 &special_run_pars
-  K_spitzer=5e-30, Kc=0.5 ! Spitzer heat conduction
+!  K_spitzer=1e-25, Kc=0.5 ! Spitzer heat conduction
+  K_spitzer=1e-32, Kc=0.5 ! Spitzer heat conduction
   K_iso=1.e-7     ! isotropic heat conduction proptional to |grad(T)|
   cool_RTV=1 ! radiative losses
   cool_RTV_cutoff=1 ! radiative losses
   nvor=0
   luse_vel_field=F
   iheattype='T<Tcrit'
-  T_crit=3500.0
+  T_crit=2000.0
   deltaT_crit=300
   lflux_emerg_bottom=T
-!  uu_emerg=0.0,0.0,0.02
-!  bb_emerg=141.0,0.0,0.0
+  lemerg_profx=T
   flux_type='noise'
   uu_emerg=0.0,0.0,0.02
-  bb_emerg=141.0,141.0,141.0
+!  uu_emerg=0.0,0.0,0.2
+  bb_emerg=141.0,0.0,141.0
+  lslope_limited_special=T
+  lnrho_min=-29.0,lnrho_min_tau=1.0e2
 /
 &shock_run_pars
   lshock_first=F
