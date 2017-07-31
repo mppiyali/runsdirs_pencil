@@ -1,0 +1,66 @@
+!  -*-f90-*-  (for Emacs)    vim:set filetype=fortran:  (for vim)
+!
+! Convection in vertically stratified atmosphere/solar convection zone
+! Initialisation parameters
+!
+&init_pars
+  cvsid='$Id: start.in,v 1.1 2017/03/15 08:44:26 piyali Exp $'
+
+  unit_length=1e8               !
+  unit_velocity=1e6             ! unit system (relative to cgs)
+  unit_density=1e-7             !
+  unit_temperature=1e-0         ! temperature measured in Kelvin
+
+  xyz0  = -26.0, 0.0, -2.53481  ! first corner of box
+  xyz1  =  26.0, 0.01, 15.0375  ! last corner of box
+  lperi =  T ,   T ,   F        ! periodic direction?
+  bcz = 's:a','s:a','a:s','StS','StS','nil:s','s','nil:a','s'
+
+  lwrite_aux=T                  ! write out auxiliary variables
+  ip=14                         ! debugging parameter
+  lread_oldsnap=F
+/
+
+&eos_init_pars
+!  lHminus_opacity_correction=T
+  lss_as_aux=T
+/
+
+&hydro_init_pars
+  inituu='gaussian-noise'
+  ampluu=0.1
+/
+
+&density_init_pars
+  initlnrho='stratification'
+  strati_type='lnrho_lnTT'
+/
+
+&grav_init_pars
+  gravz_profile='const'         ! constant gravity in the z-direction
+  gravz=-2.75
+/
+
+&entropy_init_pars
+/
+
+&magnetic_init_pars
+  initaa='read_bin_file'
+  amplaa=500.0
+/
+
+&radiation_init_pars
+  bc_rad='p:p','p:p','S:0'
+  radx=1
+  rady=1
+  radz=1
+  rad2max=1
+  opacity_type='total_Rosseland_mean'
+  kapparho_floor=1.43e-2
+  lcutoff_opticallythin=T
+  z_cutoff=1.2,cool_wid=0.1
+  scalefactor_srad=0.25
+  lradflux=F
+/
+&special_init_pars
+/
