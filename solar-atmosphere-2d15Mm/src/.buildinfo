@@ -1,23 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <buildinfo version="0.1" xmlns:media="http://www.nordita.dk/software/pencil-code/buildinfo">
-  <timestamp>Fri Jun  2 10:09:43 IST 2017</timestamp>
+  <timestamp>Thu Jul 13 12:44:50 IST 2017</timestamp>
   <buildhost>
-    <hostname>hydra.iiap.res.in</hostname>
+    <hostname>saveri</hostname>
     <os>Linux</os>
-    <osrelease>2.6.18-238.el5</osrelease>
+    <osrelease>3.19.0-84-generic</osrelease>
     <user>piyali</user>
-    <uptime> 10:09:43 up 75 days, 18:00, 10 users,  load average: 0.72, 0.37, 0.21</uptime>
+    <uptime> 12:44:50 up 15 days, 37 min,  4 users,  load average: 0.90, 0.64, 0.54</uptime>
   </buildhost>
-  <buildtime>\n  <timestamp type='start'>Fri Jun  2 10:08:29 IST 2017</timestamp>
-  <timestamp   type='end'>Fri Jun  2 10:09:43 IST 2017</timestamp>\n</buildtime>
+  <buildtime>
+  <timestamp type='start'>Thu Jul 13 12:43:15 IST 2017</timestamp>
+  <timestamp   type='end'>Thu Jul 13 12:44:50 IST 2017</timestamp>
+</buildtime>
   <makeinfo>
-    <var name="FC">mpif90 </var>
-    <var name="F77">mpif90 </var>
+    <var name="FC">mpif90.openmpi </var>
+    <var name="F77">mpif90.openmpi  </var>
     <var name="F90"></var>
-    <var name="FFLAGS">-O1  </var>
+    <var name="FFLAGS">-O2 -mcmodel=large </var>
     <var name="F90FLAGS"></var>
     <var name="F77FLAGS"></var>
-    <var name="FFLAGS_GENERAL">-r8 </var>
+    <var name="FFLAGS_GENERAL">-fdefault-real-8 </var>
     <var name="CFLAGS_GENERAL">-DDOUBLE_PRECISION</var>
     <var name="LDMPI"></var>
   </makeinfo>

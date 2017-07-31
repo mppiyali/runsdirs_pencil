@@ -15,11 +15,11 @@
   xyz1  =  6.5, 0.01, 15.0375  ! last corner of box
   lperi =  T ,   T ,   F        ! periodic direction?
 !  bcz = 's','s','a','StS','StS','s:pot','s:nil','a:nil','s'
-  bcz = 's:a','s:a','a:s','StS','StS','s:pot','s:nil','a:nil','s'
+  bcz = 's:a','s:a','a:s','StS','StS','s','s','a','s'
 
   lwrite_aux=T                  ! write out auxiliary variables
   ip=14                         ! debugging parameter
-  lread_oldsnap=T
+  lread_oldsnap=F
 /
 
 &eos_init_pars
@@ -28,13 +28,13 @@
 /
 
 &hydro_init_pars
-!  inituu='gaussian-noise'
-!  ampluu=0.1
+  inituu='gaussian-noise'
+  ampluu=0.1
 /
 
 &density_init_pars
-!  initlnrho='stratification'
-!  strati_type='lnrho_lnTT'
+  initlnrho='stratification'
+  strati_type='lnrho_lnTT'
 /
 
 &grav_init_pars
@@ -46,8 +46,8 @@
 /
 
 &magnetic_init_pars
-!  initaa='read_bin_file'
-!  amplaa=500.0
+  initaa='read_bin_file'
+  amplaa=5.0
 /
 
 &radiation_init_pars
